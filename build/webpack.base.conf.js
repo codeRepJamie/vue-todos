@@ -1,7 +1,7 @@
-var path = require('path')
-var utils = require('./utils')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
+let path = require('path')
+let utils = require('./utils')
+let config = require('../config')
+let vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -27,6 +27,14 @@ module.exports = {
   },
   module: {
     rules: [
+      {   //把这个对象添加在里面
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          {loader: 'css-loader', options: {importLoaders: 1}},
+          'less-loader'
+        ]
+      },
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
