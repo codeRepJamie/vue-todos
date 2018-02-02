@@ -23,6 +23,8 @@
         <input
           type="text"
           placeholder="请输入"
+          v-model="text"
+          @keyup.enter="onAdd"
           :disabled="todo.locked"
         >
         <span class="icon-add"></span>
@@ -31,33 +33,44 @@
     </nav>
 
     <div class="content-scrollable list-items">
-      <!--容器下半部分-->
+      <item :key="index" v-for="(item,index) in items" :item="item"></item>
     </div>
   </div>
 </template>
 
 <script>
+  import item from './Item.vue'
+
   export default {
-    data() {
+    data () {
       return {
         todo: { //详情内容
           title: '星期一',
           count: 12,
-          locked: true
+          locked: false
         },
         items: [ //代办单项列表
-          { checked: false, text: '新的一天', isDelete: false },
-          { checked: false, text: '新的一天', isDelete: false },
-          { checked: false, text: '新的一天', isDelete: false }
+          {checked: false, text: '新的一天', isDelete: false},
+          {checked: false, text: '新的一天', isDelete: false},
+          {checked: false, text: '新的一天', isDelete: false}
         ],
         text: '' //新增代办单项绑定的值
       }
+    },
+    methods: {
+      onAdd () {
+        this.items.push({checked: false, text: this.text, isDelete: false})
+        this.text = ''
+      }
+    },
+    components: {
+      item
     }
   }
 </script>
 
-<style lang = "less">
-@import '../common/style/nav.less';
-@import '../common/style/form.less';
-@import '../common/style/todo.less';
+<style lang="less">
+  @import '../common/style/nav.less';
+  @import '../common/style/form.less';
+  @import '../common/style/todo.less';
 </style>

@@ -26,5 +26,6 @@ module.exports = {
     'no-tabs': 0,
     'eol-last': 0,
     'spaced-comment': 0,
+    'no-unused-vars': 0
   }
 }
