@@ -5,29 +5,24 @@ import {
   Todos
 } from './data/todoList'
 
-/**
- * mock start
- */
 export default {
   start () {
-    let mock = new MockAdapter(axios) // 创建 MockAdapter 实例
+    let mockAdapter = new MockAdapter(axios)
 
-    mock.onGet('/todo/list').reply(config => {
-      console.log(config.params);
+    mockAdapter.onGet('/todo/list').reply(config => {
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([200, Todos])
-        }, 2000)
+        resolve([200, {
+          Todos // 返回状态为200，并且返回todos数据
+        }])
       })
     })
 
-    mock.onPost('/todo/addTodo').reply(config => {
+    mockAdapter.onPost('/todo/addTodo').reply(config => {
+      console.log(config)
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([200, {
-            add: 'todo'
-          }])
-        }, 2000)
+        resolve([200, {
+          hah: 'hhhhhh' // 返回状态为200，并且返回todos数据
+        }])
       })
     })
   }
