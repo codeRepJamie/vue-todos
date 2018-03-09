@@ -1,5 +1,5 @@
 import Mock from 'mockjs' // 导入mockjs 模块
-let COUNT = [1, 2, 3, 4] // 定义我们需要的数据
+let COUNT = [1, 2, 3, 4]; // 定义我们需要的数据
 
 export const Todos = COUNT.map(index => {
   return Mock.mock({
@@ -15,7 +15,7 @@ export const Todos = COUNT.map(index => {
       }
     })
   })
-})
+});
 
 /*
 let Todos = []; // 定义我们需要的数据

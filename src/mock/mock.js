@@ -6,24 +6,29 @@ import {
 } from './data/todoList'
 
 export default {
-  start () {
-    let mockAdapter = new MockAdapter(axios)
-
+  start() {
+    let mockAdapter = new MockAdapter(axios);
+    //console.log(Todos);
     mockAdapter.onGet('/todo/list').reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, {
-          Todos // 返回状态为200，并且返回todos数据
+          todos: Todos // 返回状态为200，并且返回todos数据
         }])
       })
-    })
+    });
 
     mockAdapter.onPost('/todo/addTodo').reply(config => {
-      console.log(config)
+      Todos.push({
+        id: Mock.Random.guid(),
+        title: 'New List',
+        isDelete: false,
+        locked: false,
+        record: []
+      });
+
       return new Promise((resolve, reject) => {
-        resolve([200, {
-          hah: 'hhhhhh' // 返回状态为200，并且返回todos数据
-        }])
-      })
+        resolve([200])
+      });
     })
   }
 }

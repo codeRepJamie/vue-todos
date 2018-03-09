@@ -1,12 +1,17 @@
 <template>
   <div class="list-todos">  <!--菜单容器-->
     <a v-for="item in items"
-      class="list-todo activeListClass list"> <!--单个菜单容器-->
+       class="list-todo activeListClass list"
+       :class="{'active': item.id === selectedItemId}"
+       @click="selectMenus(item.id)"
+    > <!--单个菜单容器-->
       <span v-if="item.locked" class="icon-lock"></span>  <!--锁的图标-->
-      <span class="count-list">{{item.count}}</span><!--数字-->
+      <span class="count-list">{{item.record.length}}</span><!--数字-->
       {{item.title}} <!--菜单内容-->
     </a>
-    <a class=" link-list-new"> <!--新增菜单-->
+    <a class="link-list-new"
+       @click="addTodo"
+    > <!--新增菜单-->
       <span class="icon-plus">
       </span>
       新增
@@ -14,21 +19,40 @@
   </div>
 </template>
 <script>
+  import {getTodoList, addTodo} from '../api/api'
+
   export default {
-    data () {
+    created() {
+      getTodoList().then(res => {
+        this.items = res.data.todos;
+        this.selectedItemId = this.items[0].id;
+      });
+    },
+    data() {
       //data函数
       return {
-        items: [
-          {title: '星期一', count: 1, locked: true}, // 菜单的模拟数据
-          {title: '星期二', count: 2, locked: true}, {
-            title: '星期三', count: 3, locked: false
-          }]
+        items: [],
+        selectedItemId: ''
       };
+    },
+    methods: {
+      selectMenus(id) {
+        this.selectedItemId = id;
+      },
+      addTodo() {
+        addTodo().then(rsp => {
+          getTodoList().then(res => {
+            this.items = res.data.todos;
+            this.selectedItemId = this.items[this.items.length - 1].id;
+            console.log(this.items);
+          });
+        });
+      }
     }
   };
 </script>
 
 <style lang="less">
-@import '../common/style/menu.less';
+  @import '../common/style/menu.less';
 </style>
 

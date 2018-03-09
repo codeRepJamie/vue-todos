@@ -40,9 +40,10 @@
 
 <script>
   import item from './Item.vue'
+  import {getTodoList} from '../api/api.js'
 
   export default {
-    data () {
+    data() {
       return {
         todo: { //详情内容
           title: '星期一',
@@ -58,9 +59,14 @@
       }
     },
     methods: {
-      onAdd () {
-        this.items.push({checked: false, text: this.text, isDelete: false})
-        this.text = ''
+      /*getTodos() {
+        getTodoList({listId: 1}).then(data => {
+          console.log(data)
+        });
+      },*/
+      onAdd() {
+        /*this.items.push({checked: false, text: this.text, isDelete: false})
+        this.text = ''*/
       }
     },
     components: {
