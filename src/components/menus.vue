@@ -1,12 +1,12 @@
 <template>
   <div class="list-todos">  <!--菜单容器-->
-    <a v-for="item in items"
+    <a v-if="items.length" v-for="item in items"
        class="list-todo activeListClass list"
        :class="{'active': item.id === selectedItemId}"
        @click="selectMenus(item.id)"
     > <!--单个菜单容器-->
       <span v-if="item.locked" class="icon-lock"></span>  <!--锁的图标-->
-      <span class="count-list">{{item.record.length}}</span><!--数字-->
+      <span v-if="item.count > 0" class="count-list">{{item.count}}</span><!--数字-->
       {{item.title}} <!--菜单内容-->
     </a>
     <a class="link-list-new"
@@ -22,17 +22,24 @@
   import {getTodoList, addTodo} from '../api/api'
 
   export default {
+    watch: {
+      'selectedItemId'(id) {
+        this.$router.push({name: 'todo', params: {id: id}});
+      }
+    },
     created() {
       getTodoList().then(res => {
         this.items = res.data.todos;
-        this.selectedItemId = this.items[0].id;
+        if (this.items.length && this.selectedItemId.length === 0) {
+          this.selectedItemId = this.items[0].id;
+        }
       });
     },
     data() {
       //data函数
       return {
         items: [],
-        selectedItemId: ''
+        selectedItemId: this.$route.params.id || ''
       };
     },
     methods: {
@@ -44,7 +51,6 @@
           getTodoList().then(res => {
             this.items = res.data.todos;
             this.selectedItemId = this.items[this.items.length - 1].id;
-            console.log(this.items);
           });
         });
       }

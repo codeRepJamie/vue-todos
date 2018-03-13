@@ -2,18 +2,24 @@ import Mock from 'mockjs' // 导入mockjs 模块
 let COUNT = [1, 2, 3, 4]; // 定义我们需要的数据
 
 export const Todos = COUNT.map(index => {
+
+  let record = COUNT.map(index => {
+    return {
+      text: Mock.Random.cparagraph(2), // 随机内容
+      isDelete: false, // 是否删除
+      checked: Mock.Random.boolean()  // 是否完成
+    }
+  });
+
   return Mock.mock({
     id: Mock.Random.guid(),
     title: Mock.Random.first(),
     isDelete: false,
     locked: Mock.Random.boolean(),
-    record: COUNT.map(index => {
-      return {
-        text: Mock.Random.cparagraph(2), // 随机内容
-        isDelete: false, // 是否删除
-        checked: Mock.Random.boolean()  // 是否完成
-      }
-    })
+    count: record.filter(data => {
+      return data.checked === false
+    }).length,
+    record: record
   })
 });
 

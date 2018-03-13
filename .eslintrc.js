@@ -28,5 +28,7 @@ module.exports = {
     'spaced-comment': 0,
     'no-unused-vars': 0,
     'no-trailing-spaces': 0,
+    'padded-blocks': 0,
+    'one-var': 0,
   }
 };
